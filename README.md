@@ -13,36 +13,40 @@
 
 Example request:
 
-> Research a daily TopN momentum strategy on the 2021-2025 A-share daily Panel. Use `curve` mode and the `broker` engine, avoid look-ahead data, and require cumulative return >= 20%, maximum drawdown <= 15%, actual trade-segment win rate >= 55%, and minimum portfolio size 2x2. Return auditable source and backtest evidence.
+> Research a daily TopN momentum strategy on the 2021-2025 A-share daily Panel. Avoid look-ahead data, require cumulative return >= 20%, maximum drawdown <= 15%, actual trade-segment win rate >= 55%, and minimum portfolio size 2x2. Choose the appropriate execution setup and return auditable source and backtest evidence.
 
 The Agent handles strategy templates, mode and engine selection, iteration, failure diagnosis, and artifact interpretation. Ask the Agent for implementation details when you need them.
 
 These are executable objective thresholds, not descriptive text. The Agent reads the actual backtest metrics: all checks must pass for `Passed`; a valid run that misses a target is `Unmet`; data, causality, schema, or runtime-contract failures are `Invalid`. The date window, data, mode, engine, and thresholds are not silently relaxed during iteration.
 
-## Three Modes
+## Three Research Views
 
-| Mode | Use |
+You do not need to remember the internal names. Tell the Agent what you want to understand:
+
+| What you want to know | System view |
 | --- | --- |
-| `curve` | Full-Panel signals, TopN selection, portfolio execution, and equity curve. |
-| `assess` | Full-Panel signals and trade-segment evaluation for fast signal research. |
-| `single` | Single-stock signal and equity testing for focused debugging. |
+| Overall returns and drawdown of a strategy | Full portfolio backtest (`curve`) |
+| Quality of signals and individual trades | Trade-quality evaluation (`assess`) |
+| Signal and execution behavior for one stock | Single-stock check (`single`) |
 
-## Five Engines
+## Five Portfolio Setups
 
-| Engine | Use |
+The Agent chooses the appropriate setup. You only need the plain-language meaning:
+
+| Portfolio setup | Best for |
 | --- | --- |
-| `legacy` | Vectorized portfolio research for standard strategies. |
-| `slot` | Slot-based cash and position management. |
-| `slot_broker` | Slot allocation combined with cash and execution ledgers. |
-| `broker` | Order, fill, cash, position, and risk ledgers for strict trading semantics. |
-| `fixed_rebalance` | Periodic target-weight rebalancing without a signal strategy. |
+| Standard portfolio backtest (`legacy`) | Overall historical behavior of a standard strategy. |
+| Slot-based allocation (`slot`) | Fixed position slots, cash allocation, and rotation. |
+| Slots plus execution records (`slot_broker`) | Slot rules together with trade accounting. |
+| Full trading ledger (`broker`) | Orders, fills, cash, positions, and risk changes. |
+| Target-weight rebalancing (`fixed_rebalance`) | Periodic allocation changes without a stock-selection strategy. |
 
-The Agent selects the mode and engine for the research question and keeps the measurement conditions fixed within a task. Compare strategies only under the same mode, engine, data, and window.
+These are Agent execution choices, not a learning barrier. The Agent keeps comparison conditions consistent.
 
 ## What You Get
 
 - Runnable and reviewable A-share strategy source;
-- `summary.json`, objective checks, and static checks;
+- Backtest reports, objective checks, and static checks;
 - data identity, window, resolved configuration, and engine records;
 - structured signals, fills, positions, equity, and trade-segment artifacts;
 - audit results for data quality, point-in-time safety, schema, causality, tradability, costs, and NAV invariants.
@@ -75,7 +79,7 @@ Set-Location ..\..
 python -m web
 ```
 
-Open `http://127.0.0.1:5000`. Current `curve`/`assess` execution still requires a configured trading-calendar provider; TuShare is the default. Users remain responsible for data licensing.
+Open `http://127.0.0.1:5000`. Full portfolio backtests and trade-quality evaluations currently require a configured trading-calendar provider; TuShare is the default. Users remain responsible for data licensing.
 
 ## Boundary
 
