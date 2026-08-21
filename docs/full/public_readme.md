@@ -1,5 +1,7 @@
 # JSHS V1 Full Public Edition
 
+[中文](README_CN.md) | English
+
 Chinese setup guide: `README_CN.md`.
 
 JSHS V1 is a daily A-share backtesting workspace with a Python engine, CLI,
