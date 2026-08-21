@@ -1076,13 +1076,13 @@
     },
     {
       "path": "docs/full/public_readme.md",
-      "sha256": "1de70a7fb18d580aa67529580925c8bc2b265c0afd402f1b430357bf16b603af",
-      "size": 2319
+      "sha256": "6aeb0dd4631688b4e31eaaec895d706d2751a3c7dd21050ad5cf4c4e8cae79dd",
+      "size": 2665
     },
     {
       "path": "docs/full/public_readme_zh.md",
-      "sha256": "46ba1f65877387727b83ee1cffe5088a6ac2d80a53260128f66615890b8674fc",
-      "size": 6139
+      "sha256": "b21349e670d2c705367b8844ac735f8a262e1c1b773e95334e67c07353dbd032",
+      "size": 7563
     },
     {
       "path": "docs/full/public_release.md",
@@ -1196,13 +1196,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "1de70a7fb18d580aa67529580925c8bc2b265c0afd402f1b430357bf16b603af",
-      "size": 2319
+      "sha256": "6aeb0dd4631688b4e31eaaec895d706d2751a3c7dd21050ad5cf4c4e8cae79dd",
+      "size": 2665
     },
     {
       "path": "README_CN.md",
-      "sha256": "46ba1f65877387727b83ee1cffe5088a6ac2d80a53260128f66615890b8674fc",
-      "size": 6139
+      "sha256": "b21349e670d2c705367b8844ac735f8a262e1c1b773e95334e67c07353dbd032",
+      "size": 7563
     },
     {
       "path": "requirements.txt",
@@ -2907,7 +2907,7 @@
   ],
   "generated_from_tracked_files": true,
   "schema_version": 1,
-  "source_commit": "00c8905ac548c3a9bacad74f27020024d9336e72",
+  "source_commit": "b3d7005f4e654eba99df1612d59e2eb008c7450f",
   "source_worktree_dirty": false,
   "untracked_release_inputs": []
 }

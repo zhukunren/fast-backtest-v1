@@ -51,6 +51,13 @@ TuShare service through environment variables such as `MYSQL_PASSWORD` and
 release. The local-price smoke replaces only OHLCV input; its curve execution
 still requires TuShare calendar access.
 
+## Full Panel Data Package
+
+The complete A-share daily panel is distributed separately from the source in
+the [panel-v1.0.0 Release](https://github.com/zhukunren/fast-backtest-v1/releases/tag/panel-v1.0.0).
+Download the ZIP, verify its SHA-256 and the included manifest before placing
+the Parquet file at `data/panel_cache/stock_daily.parquet`.
+
 ## Scope
 
 This edition is an alpha research and engineering tool, not an investment

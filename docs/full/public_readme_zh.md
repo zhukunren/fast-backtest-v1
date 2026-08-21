@@ -109,6 +109,33 @@ trade_date, stock_code, open, high, low, close, volume
 
 策略只负责因果特征、信号意图和候选排序；交易日可成交性、涨跌停、执行价格、费用、持仓、风险状态和净值由 V1 框架负责。
 
+## 完整 Panel 数据包
+
+项目提供一个与源码分离的完整 A 股日线 panel 数据包：[panel-v1.0.0 Release](https://github.com/zhukunren/fast-backtest-v1/releases/tag/panel-v1.0.0)。数据包不是 Git 源码的一部分，下载后请先校验压缩包和 Parquet 文件的 SHA-256。
+
+当前数据包信息：
+
+- 覆盖日期：1990-12-19 至 2026-08-18
+- 股票数：5,544
+- 行数：16,813,463
+- 压缩包：`jshs-v1-panel-2026-08-18.zip`
+- 压缩包 SHA-256：`8954f6c90fc951f8526d22b99a1300b0b364524270d500c9e268f9e6f1302ecf`
+- Parquet SHA-256：`3115de26d059bab240b497affb2465890afe1cd2b7b65d18aa68056b7aaa0185`
+
+PowerShell 示例：
+
+```powershell
+$url = "https://github.com/zhukunren/fast-backtest-v1/releases/download/panel-v1.0.0/jshs-v1-panel-2026-08-18.zip"
+Invoke-WebRequest -Uri $url -OutFile jshs-v1-panel-2026-08-18.zip
+Get-FileHash .\jshs-v1-panel-2026-08-18.zip -Algorithm SHA256
+Expand-Archive .\jshs-v1-panel-2026-08-18.zip -DestinationPath .\panel-release
+Copy-Item .\panel-release\stock_daily.parquet data\panel_cache\stock_daily.parquet
+Copy-Item .\panel-release\stock_daily.manifest.json data\panel_cache\stock_daily.manifest.json
+python tools\data_quality_audit.py --target panel-manifest --input data\panel_cache\stock_daily.parquet
+```
+
+如果数据包版本、日期范围或 hash 与说明不一致，不要直接用于复现实验；应先检查 Release 版本和 manifest。
+
 ## 验证
 
 在干净的公共候选目录中运行：
