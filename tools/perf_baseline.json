@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-08-21T18:49:58",
+  "command": [
+    "python",
+    "tools/profile_backtest.py",
+    "--case",
+    "offline_smoke",
+    "--json-out",
+    "output\\tools\\perf_smoke\\_tmp\\profile_20260821_184952_066598_3.json"
+  ],
+  "python": "3.12.5",
+  "platform": "win32",
+  "warmup_runs": 1,
+  "repeat_runs": 3,
+  "comparison_elapsed_sec": 0.42320289999770466,
+  "comparison_source": "median_sample",
+  "comparison_peak_rss_bytes": 126644224,
+  "rss_comparison_source": "median_sample_peak",
+  "profile": {
+    "case": "offline_smoke",
+    "final_net_value": 1.0384321361512943,
+    "backtest_elapsed_sec": 0.42320289999770466,
+    "price_cache_mode": "none"
+  }
+}

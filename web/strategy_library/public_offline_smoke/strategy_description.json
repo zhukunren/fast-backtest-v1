@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "authoring": {
+    "method": "llm_source_review",
+    "language": "zh-CN"
+  },
+  "source": {
+    "file": "strategy_library/builtin/offline_smoke.py",
+    "sha256": "25a48ba7bb1d5394c339472ed9ad708a8be9527c551a6c0032bb05d1ef6d426e"
+  },
+  "profile": {
+    "title": "离线冒烟策略",
+    "summary": "用于验证完整 V1 工作区安装、信号、执行和 Web 展示链的确定性合成策略。",
+    "buy_logic": "每只股票在样本中的首个可用交易日产生一次买入意图。",
+    "sell_logic": "买入意图出现后的第 5 个交易日产生卖出意图。",
+    "position_text": "1*1",
+    "style_label": "验证策略"
+  },
+  "runtime": {
+    "top_n": 1,
+    "portfolio_num_j": 1,
+    "portfolio_num_i": 1
+  },
+  "buy": [
+    "每只股票的首个样本交易日产生买入意图"
+  ],
+  "sell": [
+    "首个样本交易日后的第 5 个交易日产生卖出意图"
+  ],
+  "investor_explanation": {
+    "buy": {
+      "summary": "仅用于确定性验证，不表达投资判断。",
+      "groups": [
+        {
+          "title": "验证入口",
+          "items": [
+            {
+              "title": "首行买入",
+              "description": "每只股票在合成样本中的首个交易日产生一次买入意图。"
+            }
+          ]
+        }
+      ]
+    },
+    "sell": {
+      "summary": "按固定样本持有期退出。",
+      "groups": [
+        {
+          "title": "验证退出",
+          "items": [
+            {
+              "title": "固定第 5 日",
+              "description": "从首个样本交易日计数，第 5 个交易日产生卖出意图。"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

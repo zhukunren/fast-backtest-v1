@@ -1,0 +1,23 @@
+def factor_engine(df: pd.DataFrame) -> pd.DataFrame:
+    # <editable id="factor_engine">
+    df = df.sort_values(["stock_code", "trade_date"], kind="mergesort").reset_index(drop=True)
+    grouped = df.groupby("stock_code", sort=False)
+    # Use grouped.shift/rolling/pct_change for every stock-local time-series factor.
+    _ = grouped
+    raise NotImplementedError("__REQUIRED__: implement a causal factor_value column on the complete panel")
+    # </editable>
+
+
+def factor_entry_exit_rules(df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
+    # <editable id="factor_entry_exit_rules">
+    raise NotImplementedError("__REQUIRED__: define factor eligibility and exit intent")
+    # </editable>
+
+
+def _compute_panel_signals(df: pd.DataFrame) -> tuple[pd.Series, pd.Series, pd.DataFrame]:
+    out = factor_engine(df)
+    if "factor_value" not in out.columns:
+        raise ValueError("factor_engine() must produce factor_value")
+    out["factor_value"] = pd.to_numeric(out["factor_value"], errors="coerce")
+    buy_cond, sell_cond = factor_entry_exit_rules(out)
+    return buy_cond, sell_cond, out

@@ -1,0 +1,58 @@
+"""Neutral {{PROFILE}} strategy scaffold generated for Codex authoring.
+
+Registry version: {{REGISTRY_VERSION}}
+Selected capabilities: {{CAPABILITY_LIST}}
+
+Implement the strategy hooks, then use draft backtests for framework feedback.
+Complete promotion metadata only before formal validation. Framework execution,
+allocation, costs, tradability, portfolio state, and NAV remain outside this module.
+"""
+from __future__ import annotations
+
+import numpy as np
+import pandas as pd
+
+from strategies.api import (
+    BaseStrategy,
+    FeatureBatch,
+    PanelView,
+    SignalBatch,
+    build_board_time_ok as _build_board_time_ok,
+    build_index_time_ok,
+    compute_feature_batch,
+    compute_signal_batch,
+)
+{{EXTRA_IMPORTS}}
+
+
+STRATEGY_META = {{STRATEGY_META}}
+
+
+{{PARAMETER_BINDING}}
+
+
+STRATEGY_SEMANTICS = {{STRATEGY_SEMANTICS}}
+
+
+STRATEGY_DESCRIPTION = {{STRATEGY_DESCRIPTION}}
+
+
+STRATEGY_LIMITS = {{STRATEGY_LIMITS}}
+
+
+{{PROFILE_HOOKS}}
+
+
+{{PANEL_HOOKS}}
+
+
+{{MARKET_HOOKS}}
+
+
+{{TIMING_HOOKS}}
+
+
+{{ADVANCED_HOOKS}}
+
+
+{{RUNTIME_WIRING}}

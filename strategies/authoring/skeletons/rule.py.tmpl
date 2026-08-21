@@ -1,0 +1,27 @@
+def feature_engine(df: pd.DataFrame) -> pd.DataFrame:
+    # <editable id="feature_engine">
+    df = df.sort_values(["stock_code", "trade_date"], kind="mergesort").reset_index(drop=True)
+    grouped = df.groupby("stock_code", sort=False)
+    # Use grouped.shift/rolling/pct_change for every stock-local time-series feature.
+    _ = grouped
+    raise NotImplementedError("__REQUIRED__: implement causal stock-local features on the complete panel")
+    # </editable>
+
+
+def entry_exit_rules(df: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
+    # <editable id="entry_exit_rules">
+    raise NotImplementedError("__REQUIRED__: implement aligned entry and exit conditions")
+    # </editable>
+
+
+def priority_score(df: pd.DataFrame) -> pd.Series:
+    # <editable id="priority_score">
+    raise NotImplementedError("__REQUIRED__: implement a finite candidate-priority value")
+    # </editable>
+
+
+def _compute_panel_signals(df: pd.DataFrame) -> tuple[pd.Series, pd.Series, pd.DataFrame]:
+    out = feature_engine(df)
+    buy_cond, sell_cond = entry_exit_rules(out)
+    out["candidate_priority"] = pd.to_numeric(priority_score(out), errors="coerce")
+    return buy_cond, sell_cond, out

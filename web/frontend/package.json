@@ -1,0 +1,41 @@
+{
+  "name": "web-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "node scripts/clean-dist.mjs",
+    "test": "vitest",
+    "test:unit": "vitest run --coverage",
+    "test:coverage:all": "vitest run --config vitest.all.config.ts --coverage",
+    "audit:dependencies": "python ../../tools/audit_frontend_dependencies.py",
+    "typecheck": "vue-tsc --noEmit",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.26.0",
+    "echarts": "^6.1.0",
+    "vue": "^3.5.40"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitest/coverage-v8": "4.1.10",
+    "@vue/test-utils": "^2.4.11",
+    "@vue/tsconfig": "^0.9.1",
+    "happy-dom": "^20.11.1",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.5",
+    "vitest": "4.1.10",
+    "vue-tsc": "^3.3.8"
+  },
+  "overrides": {
+    "brace-expansion": "5.0.9",
+    "@vue/test-utils": {
+      "js-beautify": "2.0.3",
+      "nopt": "9.0.0"
+    }
+  }
+}

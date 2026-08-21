@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the archived SoftwareX research snapshot."
+title: "JSHS: A Codex-Operated Workflow for Goal-Driven Rule-Strategy Production"
+type: software
+version: "1.0.0"
+date-released: 2026-08-17
+repository-code: "https://github.com/zhukunren/jshs-softwarex-snapshot"
+license: MIT
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21979118"
+    description: "Zenodo archive of the softwarex-v1.0.0 research snapshot"
+authors:
+  - family-names: Jiang
+    given-names: Fan
+    affiliation: "Soochow Securities Co., Ltd."
+    email: "jiangf88@dwzq.com.cn"
+  - family-names: Yu
+    given-names: Mengyao
+    affiliation: "Soochow Securities Co., Ltd."
+    email: "sl_yumy@dwzq.com.cn"
+  - family-names: Zhu
+    given-names: Kunren
+    affiliation: "Soochow Securities Co., Ltd."
+    email: "zhukunren01@gmail.com"
+    orcid: "https://orcid.org/0009-0000-2023-4187"
+keywords:
+  - coding agent
+  - agentic workflow
+  - rule-based strategy
+  - quantitative backtesting
+  - research software

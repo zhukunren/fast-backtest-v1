@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "inventory": {
+    "coverage_sources": [
+      "app",
+      "backtest",
+      "config",
+      "core",
+      "data",
+      "runtime_lifecycle",
+      "strategies",
+      "strategy_library",
+      "trading",
+      "web"
+    ],
+    "product_roots": [
+      "app",
+      "backtest",
+      "config",
+      "core",
+      "data",
+      "runtime_lifecycle",
+      "strategies",
+      "strategy_library",
+      "trading",
+      "web"
+    ],
+    "exclusions": [
+      {
+        "pattern": "strategy_library/generated/**",
+        "reason": "Generated strategy outputs are audited by publication/static checks, not product coverage."
+      },
+      {
+        "pattern": "web/strategy_library/**",
+        "reason": "Web catalog entries resolve canonical strategy_library modules directly; Web-only uploads remain outside product coverage."
+      },
+      {
+        "pattern": "web/tests/**",
+        "reason": "The Web test tree is an input to coverage and is not product source."
+      }
+    ]
+  },
+  "overall": {
+    "floors": {
+      "branch": 70.3,
+      "combined": 81.05,
+      "statement": 84.7
+    },
+    "next_targets": {
+      "branch": 72.0,
+      "combined": 82.0,
+      "statement": 85.0
+    }
+  },
+  "groups": [
+    {
+      "name": "config_contracts",
+      "patterns": [
+        "config/**",
+        "core/*.py",
+        "runtime_lifecycle/**"
+      ],
+      "floors": {
+        "branch": 72.5,
+        "combined": 81.9,
+        "statement": 84.91
+      },
+      "next_targets": {
+        "branch": 74.0,
+        "combined": 83.0,
+        "statement": 86.0
+      }
+    },
+    {
+      "name": "data_cache",
+      "patterns": [
+        "core/caching/**",
+        "data/**"
+      ],
+      "floors": {
+        "branch": 76.1,
+        "combined": 83.65,
+        "statement": 86.3
+      },
+      "next_targets": {
+        "branch": 77.0,
+        "combined": 85.0,
+        "statement": 87.0
+      }
+    },
+    {
+      "name": "execution_netvalue_trading",
+      "patterns": [
+        "backtest/__init__.py",
+        "backtest/broker/**",
+        "backtest/constraints.py",
+        "backtest/costs.py",
+        "backtest/decisions/**",
+        "backtest/engines/**",
+        "backtest/execution_semantics.py",
+        "backtest/fixed_rebalance_runner.py",
+        "backtest/force_close.py",
+        "backtest/panel_native/**",
+        "backtest/metrics/**",
+        "backtest/netvalue/**",
+        "backtest/pipeline_result.py",
+        "backtest/raw_signal_events.py",
+        "backtest/result/**",
+        "backtest/risk_control.py",
+        "backtest/risk_fill_metadata.py",
+        "backtest/risk_lot_rules.py",
+        "backtest/signal/**",
+        "backtest/slot_broker.py",
+        "backtest/slot_broker_risk_fills.py",
+        "backtest/static_allocation.py",
+        "backtest/static_allocation_contracts.py",
+        "backtest/topn_trade_segments.py",
+        "backtest/trade_calendar.py",
+        "backtest/trade_state_machine.py",
+        "trading/**"
+      ],
+      "floors": {
+        "branch": 70.7,
+        "combined": 83.5,
+        "statement": 87.8
+      },
+      "next_targets": {
+        "branch": 72.0,
+        "combined": 84.0,
+        "statement": 88.0
+      }
+    },
+    {
+      "name": "orchestration_allocation",
+      "patterns": [
+        "app/**",
+        "backtest/allocation/**",
+        "backtest/artifacts/**",
+        "backtest/context.py",
+        "backtest/engine_batch*.py",
+        "backtest/engine_one_stock*.py",
+        "backtest/evaluation/**",
+        "backtest/orchestration/**",
+        "backtest/reporting/**",
+        "backtest/single_runner.py"
+      ],
+      "floors": {
+        "branch": 70.9,
+        "combined": 83.3,
+        "statement": 87.5
+      },
+      "next_targets": {
+        "branch": 72.0,
+        "combined": 84.0,
+        "statement": 88.0
+      }
+    },
+    {
+      "name": "strategies_runtime_static_checks",
+      "patterns": [
+        "strategies/**",
+        "strategy_library/**"
+      ],
+      "floors": {
+        "branch": 65.1,
+        "combined": 79.1,
+        "statement": 83.8
+      },
+      "next_targets": {
+        "branch": 66.0,
+        "combined": 80.0,
+        "statement": 85.0
+      }
+    },
+    {
+      "name": "web_backend",
+      "patterns": [
+        "web/**"
+      ],
+      "floors": {
+        "branch": 69.1,
+        "combined": 78.5,
+        "statement": 81.9
+      },
+      "next_targets": {
+        "branch": 70.0,
+        "combined": 80.0,
+        "statement": 83.0
+      }
+    }
+  ]
+}

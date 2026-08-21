@@ -1,0 +1,107 @@
+[build-system]
+requires = ["setuptools==83.0.0", "wheel==0.46.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jshs-v1"
+version = "1.0.0a1"
+description = "V1 daily A-share backtesting workspace."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "JSHS contributors" }]
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.1",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+
+[project.optional-dependencies]
+plot = ["matplotlib>=3.8", "plotly>=5.20"]
+db = ["sqlalchemy>=2.0", "PyMySQL>=1.1", "tushare>=1.2.89"]
+web = ["flask>=3.1.3", "flask-cors>=4.0", "waitress>=3.0.2,<4"]
+dev = ["build>=1.3", "pytest>=9.0.3,<10", "pytest-cov>=5.0", "ruff>=0.5", "mypy>=1.10", "psutil>=6.1", "pip-audit>=2.10.1,<3"]
+
+[tool.setuptools]
+include-package-data = false
+py-modules = ["main"]
+packages = [
+    "app",
+    "app.diagnostics",
+    "app.run_protocol",
+    "app.strategy_validation",
+    "backtest",
+    "backtest.allocation",
+    "backtest.artifacts",
+    "backtest.broker",
+    "backtest.decisions",
+    "backtest.engines",
+    "backtest.evaluation",
+    "backtest.metrics",
+    "backtest.netvalue",
+    "backtest.orchestration",
+    "backtest.panel_native",
+    "backtest.reporting",
+    "backtest.result",
+    "backtest.signal",
+    "config",
+    "core",
+    "core.caching",
+    "data",
+    "runtime_lifecycle",
+    "strategies",
+    "strategies.authoring",
+    "strategies.templates",
+    "strategy_library",
+    "strategy_library.builtin",
+    "strategy_library.custom",
+    "strategy_library.generated",
+    "strategy_library.validated",
+    "trading",
+    "web",
+    "web.holdings",
+    "web.insights",
+    "web.tools",
+]
+
+[tool.setuptools.package-data]
+web = [
+    "templates/*.html",
+    "static/*",
+    "strategy_library/*/config.ini",
+    "strategy_library/*/strategy.py",
+    "strategy_library/*/strategy_description.json",
+]
+strategies = [
+    "authoring/recipes/*",
+    "authoring/skeletons/*",
+    "templates/examples/*",
+]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = [
+    "projects/engine_v2/docs/archive",
+    "strategy_library/generated",
+    "web/.claude",
+    "web/data",
+    "web/.pytest_tmp*",
+    "web/.codex_tmp*",
+    "web/strategy_library",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"config/__init__.py" = ["F401"]
+"strategy_library/**/*.py" = ["E402"]
+"tests/**/*.py" = ["E402"]
+"tests_support/**/*.py" = ["E402"]
+"tools/**/*.py" = ["E402"]
+"web/**/*.py" = ["E402"]

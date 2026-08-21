@@ -1,0 +1,220 @@
+{
+  "version": "2026-03-21.v1",
+  "description": "Default strategy validation protocol for promotion into strategy_library.validated.",
+  "promotion_target": "strategy_library.validated",
+  "research_governance": {
+    "role": "diagnostic",
+    "note": "These public windows are reusable diagnostics, not sealed out-of-sample evidence."
+  },
+  "defaults": {
+    "overrides": {
+      "run.fast_pipeline": true,
+      "run.clear_outputs": true,
+      "run.clear_all_tables": false,
+      "run.plot_net_value": false,
+      "run.compute_metrics": false,
+      "run.profile_timing": false,
+      "run.quiet": true,
+      "run.build_topn_trade_segments_report": false,
+      "diagnostics.enabled": true
+    }
+  },
+  "cases": [
+    {
+      "name": "base_full",
+      "description": "Main validation window with multi-start robustness enabled.",
+      "start_time": "20240102",
+      "end_time": "20251231",
+      "gate_required": true,
+      "overrides": {
+        "diagnostics.multi_start_enabled": true,
+        "diagnostics.multi_start_step_days": 20,
+        "diagnostics.multi_start_window_days": 250,
+        "diagnostics.multi_start_max_starts": 8,
+        "diagnostics.robust_lambda": 0.5,
+        "diagnostics.robust_gamma": 1.0
+      }
+    },
+    {
+      "name": "diagnostic_first_half",
+      "description": "Reusable first-half diagnostic window; not sealed OOS.",
+      "start_time": "20250101",
+      "end_time": "20250630",
+      "gate_required": true,
+      "overrides": {}
+    },
+    {
+      "name": "diagnostic_second_half",
+      "description": "Reusable second-half diagnostic window; not sealed OOS.",
+      "start_time": "20250701",
+      "end_time": "20251231",
+      "gate_required": true,
+      "overrides": {}
+    },
+    {
+      "name": "cost_stress_full",
+      "description": "Full window with transaction costs enabled as stress test.",
+      "start_time": "20240102",
+      "end_time": "20251231",
+      "gate_required": true,
+      "overrides": {
+        "transaction_cost.enable": true,
+        "transaction_cost.commission_rate": 0.0003,
+        "transaction_cost.stamp_duty_rate": 0.0005,
+        "transaction_cost.slippage_bps": 5.0
+      }
+    },
+    {
+      "name": "broker_replay_full",
+      "description": "Broker engine replay for observation only.",
+      "start_time": "20240102",
+      "end_time": "20251231",
+      "gate_required": false,
+      "overrides": {
+        "portfolio.engine": "broker"
+      }
+    }
+  ],
+  "gates": [
+    {
+      "name": "base_trade_count",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "result.actual_segment_trade_count",
+      "op": ">=",
+      "value": 30,
+      "level": "hard",
+      "description": "Base full window should have enough realized trade segments."
+    },
+    {
+      "name": "base_cum_return_non_negative",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "result.cum_return",
+      "op": ">=",
+      "value": 0.0,
+      "level": "hard",
+      "description": "Base full window cumulative return should be non-negative."
+    },
+    {
+      "name": "base_max_drawdown_cap",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "result.max_drawdown",
+      "op": "<=",
+      "value": 0.25,
+      "level": "hard",
+      "description": "Base full window drawdown cap."
+    },
+    {
+      "name": "base_win_rate_floor",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "result.actual_segment_win_rate",
+      "op": ">=",
+      "value": 0.45,
+      "level": "hard",
+      "description": "Base full window realized win-rate floor."
+    },
+    {
+      "name": "base_top1_concentration_cap",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "diagnostics.concentration.top1_slot_profit_share",
+      "op": "<=",
+      "value": 0.85,
+      "level": "hard",
+      "description": "Single-slot profit concentration cap."
+    },
+    {
+      "name": "base_trade_hhi_cap",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "diagnostics.concentration.trade_return_hhi",
+      "op": "<=",
+      "value": 0.2,
+      "level": "hard",
+      "description": "Trade return concentration cap."
+    },
+    {
+      "name": "base_robust_score_floor",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "diagnostics.multi_start.robust_score",
+      "op": ">=",
+      "value": 0.0,
+      "level": "hard",
+      "description": "Multi-start robust score should stay non-negative."
+    },
+    {
+      "name": "diagnostic_first_half_non_negative",
+      "kind": "threshold",
+      "case": "diagnostic_first_half",
+      "path": "result.cum_return",
+      "op": ">=",
+      "value": 0.0,
+      "level": "hard",
+      "description": "Reusable first-half diagnostic cumulative return should be non-negative; this is not sealed OOS."
+    },
+    {
+      "name": "diagnostic_second_half_non_negative",
+      "kind": "threshold",
+      "case": "diagnostic_second_half",
+      "path": "result.cum_return",
+      "op": ">=",
+      "value": 0.0,
+      "level": "hard",
+      "description": "Reusable second-half diagnostic cumulative return should be non-negative; this is not sealed OOS."
+    },
+    {
+      "name": "cost_final_net_value_drop_cap",
+      "kind": "max_relative_drop",
+      "case": "cost_stress_full",
+      "base_case": "base_full",
+      "path": "result.final_net_value",
+      "value": 0.2,
+      "level": "hard",
+      "description": "Transaction-cost stress should not reduce final net value by more than 20%."
+    },
+    {
+      "name": "cost_trade_count_drop_cap",
+      "kind": "max_relative_drop",
+      "case": "cost_stress_full",
+      "base_case": "base_full",
+      "path": "result.actual_segment_trade_count",
+      "value": 0.35,
+      "level": "hard",
+      "description": "Transaction-cost stress should not reduce trade count by more than 35%."
+    },
+    {
+      "name": "broker_replay_observation",
+      "kind": "threshold",
+      "case": "broker_replay_full",
+      "path": "result.final_net_value",
+      "op": ">",
+      "value": 0.0,
+      "level": "warn",
+      "description": "Broker replay is observation only and does not block promotion."
+    },
+    {
+      "name": "capacity_p95_participation_observation",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "diagnostics.capacity.p95_participation_rate",
+      "op": "<=",
+      "value": 0.05,
+      "level": "warn",
+      "description": "Capacity observation: p95 fill participation should stay under 5% when volume data is available."
+    },
+    {
+      "name": "capacity_impact_cost_observation",
+      "kind": "threshold",
+      "case": "base_full",
+      "path": "diagnostics.capacity.impact_cost_bps_estimate",
+      "op": "<=",
+      "value": 50.0,
+      "level": "warn",
+      "description": "Capacity observation: estimated impact cost should stay under 50 bps."
+    }
+  ]
+}

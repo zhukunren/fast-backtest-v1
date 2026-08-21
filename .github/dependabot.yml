@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/projects/engine_v2"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/projects/engine_v3"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/web/frontend"
+    schedule:
+      interval: "weekly"

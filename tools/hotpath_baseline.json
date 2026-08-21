@@ -1,0 +1,136 @@
+{
+  "benchmark_rounds": 3,
+  "cases": {
+    "parquet_l2_roundtrip": {
+      "batch_elapsed_ms": [
+        100.4939,
+        102.0978,
+        100.4618,
+        101.9222,
+        101.9032
+      ],
+      "batch_iterations": [
+        45,
+        46,
+        47,
+        47,
+        47
+      ],
+      "batch_process_cpu_ms": [
+        93.75,
+        250.0,
+        156.25,
+        156.25,
+        109.375
+      ],
+      "elapsed_ms": 2.1374851063829787,
+      "result_rows": 5000,
+      "samples_ms": [
+        2.233198,
+        2.219517,
+        2.137485,
+        2.168557,
+        2.168153
+      ]
+    },
+    "price_normalize": {
+      "batch_elapsed_ms": [
+        101.663,
+        101.8554,
+        101.9651,
+        100.2163,
+        101.7784
+      ],
+      "batch_iterations": [
+        50,
+        46,
+        49,
+        49,
+        49
+      ],
+      "batch_process_cpu_ms": [
+        93.75,
+        109.375,
+        109.375,
+        109.375,
+        109.375
+      ],
+      "elapsed_ms": 2.03326,
+      "result_rows": 5000,
+      "samples_ms": [
+        2.03326,
+        2.214248,
+        2.08092,
+        2.045231,
+        2.07711
+      ]
+    },
+    "price_slice": {
+      "batch_elapsed_ms": [
+        100.0557,
+        100.0439,
+        100.0792,
+        100.0706,
+        100.0558
+      ],
+      "batch_iterations": [
+        781,
+        876,
+        918,
+        896,
+        933
+      ],
+      "batch_process_cpu_ms": [
+        109.375,
+        93.75,
+        109.375,
+        93.75,
+        109.375
+      ],
+      "elapsed_ms": 0.10724094319399786,
+      "result_rows": 24,
+      "samples_ms": [
+        0.128112,
+        0.114205,
+        0.109019,
+        0.111686,
+        0.107241
+      ]
+    }
+  },
+  "measurement_protocol": {
+    "batching": "adaptive_until_minimum_wall_ms",
+    "cpu_diagnostic_timer": "time.process_time_ns",
+    "cyclic_gc": "collect_then_disable_per_batch",
+    "minimum_sample_ms": 100.0,
+    "sample_statistic": "wall_ms_per_call",
+    "summary_statistic": "minimum",
+    "timer": "time.perf_counter_ns",
+    "warmup_calls": 3
+  },
+  "repeat": 5,
+  "round_capture": {
+    "aggregation": "minimum_of_round_minima",
+    "case_elapsed_ms": {
+      "parquet_l2_roundtrip": [
+        2.6270692307692305,
+        2.6988052631578947,
+        2.1374851063829787
+      ],
+      "price_normalize": [
+        2.03326,
+        2.349574418604651,
+        2.454070731707317
+      ],
+      "price_slice": [
+        0.11742840375586855,
+        0.1252083854818523,
+        0.10724094319399786
+      ]
+    },
+    "rounds": 3
+  },
+  "rows": 5000,
+  "schema_version": 2,
+  "timestamp": "2026-07-16T20:29:43"
+}

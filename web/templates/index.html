@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>策略库</title>
+  {% if frontend_bundle %}
+  <link rel="icon" type="image/svg+xml" href="{{ frontend_bundle.favicon_url }}" />
+    {% for css_url in frontend_bundle.css_urls %}
+  <link rel="stylesheet" href="{{ css_url }}" />
+    {% endfor %}
+  {% endif %}
+</head>
+<body>
+  <div id="app"></div>
+  <noscript>需要启用 JavaScript 才能使用新的 Vue 前端。</noscript>
+  {% if frontend_bundle %}
+  <script type="module" src="{{ frontend_bundle.js_url }}"></script>
+  {% endif %}
+</body>
+</html>

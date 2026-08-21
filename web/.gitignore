@@ -1,0 +1,4 @@
+# Keep checked-in LLM descriptions; canonical strategy source stays in the root library.
+!strategy_library/
+!strategy_library/*/
+!strategy_library/*/strategy_description.json

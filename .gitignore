@@ -1,0 +1,136 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.venv-wsl/
+
+# 输出目录
+output/
+ai/output/
+projects/factor_research/output/
+signal_data/
+stock_data/
+trade_data/
+return_date/
+return_date_with_returns/
+net_value_unique_date/
+
+# 缓存
+.cache/
+**/.claude/
+**/.codex/
+_pytest_tmp*/
+.pytest_cache/
+.coverage
+.coverage.*
+_compare_*/
+*.prof
+build/
+dist/
+dist_public/
+*.egg-info/
+
+# Web 临时会话数据
+web/data/
+web/user_workspaces/
+web/strategy_library/
+!web/strategy_library/
+web/strategy_library/*
+!web/strategy_library/*/
+web/strategy_library/*/**
+!web/strategy_library/*/config.ini
+!web/strategy_library/*/strategy.py
+ai/frontend_dist/
+
+# Research 运行产物
+research/_runs/*
+!research/_runs/README.md
+research/probes/**/__pycache__/
+research/probes/**/*.pyc
+research/probes/**/artifacts/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 本地配置
+config/config.local.ini
+config.local.ini
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# 本地工具
+.local_tools/
+
+# 本地验证/运行产物
+_codex_run/
+.codex_runtime/
+manual_validation/
+projects/engine_v2/.tmp*/
+projects/engine_v2/tmp*/
+projects/engine_v2/manual_pytest*/
+projects/engine_v2/manual_validation*/
+projects/engine_v2/projects/engine_v2/pytest-cache-files-*/
+
+# 日志
+*.log
+
+# 数据文件
+*.csv
+*.xlsx
+*.xls
+*.db
+*.sqlite
+*.sqlite3
+*.parquet
+data/panel_cache/
+
+# Full public release candidates and local verification artifacts
+libreoffice1.cab
+web/.pytest_tmp*/
+web/.codex_tmp*/
+web/frontend/.vite/
+web/frontend/output/
+web/frontend/*.log
+web/.task-state-*.sqlite3-*
+
+# 示例数据（需要纳入版本控制）
+!data/sample/
+!data/sample/**/*.csv
+!examples/sample_data/
+!examples/sample_data/**/*.csv
+
+# 临时文件
+/.tmp/
+/.tmp_*
+*.tmp
+*.bak
+
+# 用户自定义策略（仅忽略 .py 文件，保留框架文件）
+strategies/custom/*.py
+!strategies/custom/__init__.py
+
+# AI/临时策略（默认忽略，仅保留说明文件）
+strategies/catalog/generated/*.py
+strategies/_probe_runtime/
+strategies/_tmp_reversal_probe/
+strategies/templates/_codex_*/
+
+# 策略模板（版本控制）
+# 模板文件应该被追踪

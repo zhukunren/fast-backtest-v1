@@ -1,0 +1,62 @@
+include pyproject.toml
+include README.md
+include LICENSE
+include requirements.txt
+include constraints-ci.txt
+recursive-include app *.py
+recursive-include backtest *.py
+recursive-include config *.py *.ini
+recursive-include core *.py
+recursive-include data *.py
+recursive-include runtime_lifecycle *.py
+recursive-include strategies *.py
+recursive-include strategy_library *.py
+recursive-include trading *.py
+include web/*.py
+recursive-include web/holdings *.py
+recursive-include web/insights *.py
+recursive-include web/tools *.py
+recursive-include web/templates *.html
+recursive-include web/static *.css *.js *.json
+recursive-include docs/full *.md
+recursive-include docs/validation *.md
+recursive-include tools *.py *.json
+
+prune output
+prune data/panel_cache
+prune projects
+prune tests
+prune tests_support
+prune .agents
+prune .githooks
+prune plugins
+prune docs/agent
+prune docs/archive
+prune docs/architecture
+prune docs/chinese_journal_submission
+prune docs/paper_submission
+prune web/data
+prune web/docs
+prune web/frontend
+prune web/tests
+prune web/.pytest_tmp*
+prune web/.codex_tmp*
+prune web/.vite
+prune web/user_workspaces
+prune .git
+prune .github
+
+exclude .env
+exclude .env.example
+exclude .webmux.yaml
+exclude .gitignore
+exclude config/config.ini
+exclude config/config.local.ini
+exclude AGENTS.md
+exclude CLAUDE.md
+exclude conftest.py
+exclude pytest.ini
+exclude New-upload-Zenodo.png
+
+global-exclude __pycache__
+global-exclude *.py[cod]

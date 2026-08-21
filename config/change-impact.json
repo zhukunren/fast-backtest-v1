@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "default_rule": "unknown",
+  "authority_docs": {
+    "generated_strategy": [
+      "docs/handbook.md",
+      "docs/agent/CODEX_ONLY_WORKFLOW.md",
+      "strategies/API.md"
+    ],
+    "authoring_surface": [
+      "docs/handbook.md",
+      "strategies/API.md",
+      "strategies/templates/README.md"
+    ],
+    "hotpath_runtime": [
+      "docs/handbook.md",
+      "docs/architecture/CURRENT_ARCHITECTURE.md",
+      "docs/validation/pydantic.md"
+    ],
+    "framework_runtime": [
+      "docs/handbook.md",
+      "docs/architecture/CURRENT_ARCHITECTURE.md"
+    ],
+    "web_frontend": [
+      "web/README.md",
+      "web/docs/README.md"
+    ],
+    "web_backend": [
+      "docs/handbook.md",
+      "web/README.md",
+      "web/docs/README.md"
+    ],
+    "configuration": [
+      "docs/handbook.md",
+      "docs/validation/pydantic.md"
+    ],
+    "documentation": [
+      "docs/README.md",
+      "docs/handbook.md",
+      "docs/architecture/CURRENT_ARCHITECTURE.md",
+      "docs/CHANGE_RECIPES.md"
+    ],
+    "tests": [
+      "docs/handbook.md",
+      "docs/CHANGE_RECIPES.md"
+    ],
+    "governance": [
+      "docs/CHANGE_RECIPES.md",
+      "docs/handbook.md",
+      "CONTRIBUTING.md"
+    ],
+    "unknown": [
+      "docs/CHANGE_RECIPES.md",
+      "docs/handbook.md"
+    ]
+  },
+  "rules": [
+    {
+      "id": "generated_strategy",
+      "label": "generated strategy implementation",
+      "patterns": [
+        "strategy_library/generated/*.py",
+        "strategy_library/builtin/*.py",
+        "strategy_library/custom/*.py",
+        "strategy_library/validated/*.py",
+        "web/strategy_library/**/strategy.py"
+      ],
+      "local_gates": ["ruff", "strategy_backtest"],
+      "notes": "Run the real target backtest for the current strategy iteration. Do not save an invalid run as a qualified result."
+    },
+    {
+      "id": "authoring_surface",
+      "label": "strategy authoring surface",
+      "patterns": [
+        "strategies/API.md",
+        "strategies/api.py",
+        "strategies/authoring/**",
+        "strategies/templates/**",
+        "strategies/*.py",
+        "tools/strategy_authoring/**",
+        "tools/agent_strategy_backtest.py",
+        "tools/codex_strategy.py",
+        "tools/codex_campaign.py",
+        "tools/llm_authoring_gate.py",
+        "tools/strategy_backtest_smoke.py",
+        "tools/strategy_static_check.py",
+        "tests/test_codex_strategy*.py",
+        "tests/test_strategy_authoring*.py",
+        "tests/test_strategy_static_check*.py",
+        "tests/test_strategy_template*.py",
+        "tests/test_strategy_validation_service.py"
+      ],
+      "local_gates": ["ruff", "authoring"],
+      "notes": "The authoring contract remains a local gate; a compile-only or single strategy backtest is not a replacement."
+    },
+    {
+      "id": "hotpath_runtime",
+      "label": "hot path, panel, cache, state, NAV, or batch runtime",
+      "patterns": [
+        "backtest/panel_native/**",
+        "backtest/broker/**",
+        "backtest/netvalue/**",
+        "backtest/engine_batch.py",
+        "backtest/orchestration/**",
+        "core/caching/**",
+        "data/market_data.py",
+        "data/market_panel.py",
+        "runtime_lifecycle/**",
+        "trading/**",
+        "web/cache_*.py",
+        "web/*cache*.py",
+        "web/task_*.py"
+      ],
+      "local_gates": ["ruff", "offline_smoke", "perf", "hotpath", "topn"],
+      "notes": "TopN is required only when the change can alter selection, portfolio, or net-value output."
+    },
+    {
+      "id": "framework_runtime",
+      "label": "V1 framework or data runtime",
+      "patterns": [
+        "app/**",
+        "backtest/**",
+        "core/**",
+        "data/**",
+        "runtime_lifecycle/**",
+        "trading/**"
+      ],
+      "local_gates": ["ruff", "offline_smoke", "perf"],
+      "notes": "Use the targeted tests identified by the change owner in addition to the offline smoke."
+    },
+    {
+      "id": "web_frontend",
+      "label": "frontend source or package",
+      "patterns": [
+        "web/frontend/**"
+      ],
+      "local_gates": ["frontend_unit"],
+      "notes": "A frontend build is a CI gate; run it locally when changing build configuration or release assets."
+    },
+    {
+      "id": "web_backend",
+      "label": "Web backend, API, or catalog",
+      "patterns": [
+        "web/*.py",
+        "web/insights/**",
+        "web/holdings/**",
+        "web/tools/**",
+        "web/strategy_library/**",
+        "web/docs/**",
+        "web/frontend_entry.py"
+      ],
+      "local_gates": ["ruff", "web_tests"],
+      "notes": "Frontend source has its own rule; backend changes use the Web regression suite."
+    },
+    {
+      "id": "configuration",
+      "label": "runtime configuration or schema",
+      "patterns": [
+        "config/**",
+        "config.ini",
+        "config/*.ini",
+        "config/*.json",
+        "config/*.toml",
+        "config/*.yaml",
+        "config/*.yml"
+      ],
+      "local_gates": ["ruff", "config_contract", "offline_smoke"],
+      "notes": "Configuration changes are not documentation-only; verify the affected runtime semantics."
+    },
+    {
+      "id": "documentation",
+      "label": "documentation or documentation index",
+      "patterns": [
+        "README.md",
+        "docs/**",
+        "web/README.md",
+        "web/docs/**",
+        "strategies/**/*.md",
+        "tools/README.md",
+        "tools/INDEX.md",
+        "CONTRIBUTING.md",
+        "CHANGELOG.md",
+        "ROADMAP.md",
+        "SECURITY.md"
+      ],
+      "local_gates": ["docs_contract"],
+      "notes": "Active indexes, handbook, architecture, and boundary documents are covered by the documentation contract."
+    },
+    {
+      "id": "tests",
+      "label": "test or test support",
+      "patterns": [
+        "tests/**",
+        "tests_support/**",
+        "web/tests/**"
+      ],
+      "local_gates": ["ruff", "changed_tests"],
+      "notes": "Run changed test files first; CI still runs the complete suite and coverage floors."
+    },
+    {
+      "id": "governance",
+      "label": "verification, dependency, or workflow governance",
+      "patterns": [
+        ".github/workflows/**",
+        ".githooks/**",
+        "tools/full_quality_gate.py",
+        "tools/validate_full_gate_report.py",
+        "tools/perf_smoke.py",
+        "tools/hotpath_smoke.py",
+        "tools/verify_changed.py",
+        "tools/audit_*.py",
+        "config/change-impact.json",
+        "AGENTS.md",
+        "CLAUDE.md",
+        ".github/pull_request_template.md",
+        "requirements*.txt",
+        "constraints*.txt",
+        "pyproject.toml",
+        "pytest.ini",
+        "mypy*.ini"
+      ],
+      "local_gates": ["ruff", "governance_tests", "full_local"],
+      "notes": "Changes to the verification system require a local broad check and the full CI workflow."
+    }
+  ]
+}

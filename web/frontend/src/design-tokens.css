@@ -1,0 +1,59 @@
+:root {
+  --ui-font-sans: "Segoe UI", "PingFang SC", "Microsoft YaHei UI", sans-serif;
+  --ui-font-mono: "Cascadia Mono", Consolas, "SFMono-Regular", monospace;
+
+  --ui-canvas: #f4f6f8;
+  --ui-surface: #ffffff;
+  --ui-surface-subtle: #f7f9fb;
+  --ui-surface-hover: #f3f7fc;
+  --ui-text: #171a21;
+  --ui-text-muted: #596579;
+  --ui-text-faint: #6f7a89;
+  --ui-border: #dfe5ec;
+  --ui-border-subtle: #edf1f5;
+  --ui-border-strong: #c9d2de;
+
+  --ui-primary: #1769db;
+  --ui-primary-hover: #145fc7;
+  --ui-primary-active: #0f51ad;
+  --ui-primary-soft: #eaf2ff;
+  --ui-primary-border: #b9d0ef;
+
+  --ui-market-up: #c43d35;
+  --ui-market-up-soft: #fbefed;
+  --ui-market-down: #16815b;
+  --ui-market-down-soft: #eaf6f1;
+  --ui-success: #18794e;
+  --ui-success-soft: #e9f5ef;
+  --ui-success-border: #b9dcc8;
+  --ui-danger: #b42318;
+  --ui-danger-soft: #faecea;
+  --ui-danger-border: #efc3c5;
+  --ui-warning: #a15c07;
+  --ui-warning-soft: #fff7e9;
+  --ui-warning-border: #ecd7ad;
+
+  --ui-sidebar: #0b1727;
+  --ui-sidebar-hover: #112135;
+  --ui-sidebar-active: #12243a;
+  --ui-sidebar-line: #1d2a3a;
+  --ui-sidebar-text: #d8e1eb;
+  --ui-sidebar-muted: #8796a8;
+
+  --ui-radius-xs: 4px;
+  --ui-radius-sm: 6px;
+  --ui-radius-md: 8px;
+  --ui-radius-pill: 999px;
+  --ui-shadow-panel: 0 2px 8px rgba(17, 24, 39, 0.04);
+  --ui-shadow-raised: 0 8px 24px rgba(17, 24, 39, 0.08);
+  --ui-shadow-overlay: 0 24px 70px rgba(17, 24, 39, 0.22);
+  --ui-focus-outline: rgba(23, 105, 219, 0.24);
+  --ui-focus-shadow: 0 0 0 3px rgba(23, 105, 219, 0.16);
+
+  --ui-control-sm: 30px;
+  --ui-control-md: 36px;
+  --ui-control-lg: 40px;
+  --ui-header-height: 64px;
+  --ui-transition: 150ms ease;
+  font-family: var(--ui-font-sans);
+}
