@@ -13,9 +13,11 @@
 
 Example request:
 
-> Research a daily TopN momentum strategy on the 2021-2025 A-share daily Panel. Control drawdown, improve win rate, avoid look-ahead data, use the broker engine, and return auditable source and backtest evidence.
+> Research a daily TopN momentum strategy on the 2021-2025 A-share daily Panel. Use `curve` mode and the `broker` engine, avoid look-ahead data, and require cumulative return >= 20%, maximum drawdown <= 15%, actual trade-segment win rate >= 55%, and minimum portfolio size 2x2. Return auditable source and backtest evidence.
 
 The Agent handles strategy templates, mode and engine selection, iteration, failure diagnosis, and artifact interpretation. Ask the Agent for implementation details when you need them.
+
+These are executable objective thresholds, not descriptive text. The Agent reads the actual backtest metrics: all checks must pass for `Passed`; a valid run that misses a target is `Unmet`; data, causality, schema, or runtime-contract failures are `Invalid`. The date window, data, mode, engine, and thresholds are not silently relaxed during iteration.
 
 ## Three Modes
 
