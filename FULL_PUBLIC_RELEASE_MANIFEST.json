@@ -1531,8 +1531,8 @@
     },
     {
       "path": "tests/test_public_full_release.py",
-      "sha256": "1364e37267922bf8ae1eaee5bce3b3d926e8359aad478a628a8d3f9f7e161af6",
-      "size": 4118
+      "sha256": "12af8297a12d54bbc5d43fe61799ee1a55707f0baf224491f3b8d15788a1e333",
+      "size": 4104
     },
     {
       "path": "tests_support/__init__.py",
@@ -2907,7 +2907,7 @@
   ],
   "generated_from_tracked_files": true,
   "schema_version": 1,
-  "source_commit": "04a024c43e35625724146eae216b4d8ba8228fb7",
+  "source_commit": "692b95a5bfe14395fcf81d7fd16639cf15166b8a",
   "source_worktree_dirty": false,
   "untracked_release_inputs": []
 }

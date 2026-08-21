@@ -58,7 +58,7 @@ def test_full_public_export_is_redacted_and_manifested(tmp_path: Path) -> None:
 
     assert failures == []
     assert public_audit.audit(target) == []
-    assert (target / "README_CN.md").read_text(encoding="utf-8").startswith("# JSHS V1 完整公共版")
+    assert (target / "README_CN.md").read_text(encoding="utf-8").startswith("# JSHS V1\n")
     assert not (target / "config" / "config.local.ini").exists()
     assert not (target / "libreoffice1.cab").exists()
 
