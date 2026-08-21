@@ -1076,8 +1076,13 @@
     },
     {
       "path": "docs/full/public_readme.md",
-      "sha256": "b290082bfc7130018f916c439e6dcfd824e9a30eb60851027542074687069aaa",
-      "size": 1740
+      "sha256": "03fd21e63aadb9201e77d595c1a8e80e3af878df6f412705372eb323bfc17344",
+      "size": 1778
+    },
+    {
+      "path": "docs/full/public_readme_zh.md",
+      "sha256": "fc33a2e9cc51ff9ad9474260a196ff0dcb5dccedcc1e437396eb290d5466372e",
+      "size": 3017
     },
     {
       "path": "docs/full/public_release.md",
@@ -1106,8 +1111,8 @@
     },
     {
       "path": "docs/README.md",
-      "sha256": "70d19d97ca7c9099cb0ca43d217b6f76fd811bfbfa6923b412b25861aaf63c1f",
-      "size": 10020
+      "sha256": "1ab6cce41404c05f1f277b864851e77876e7f0872927ecb1e6d53100435ce75d",
+      "size": 10136
     },
     {
       "path": "docs/strategy_field_dictionary.md",
@@ -1191,8 +1196,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "b290082bfc7130018f916c439e6dcfd824e9a30eb60851027542074687069aaa",
-      "size": 1740
+      "sha256": "03fd21e63aadb9201e77d595c1a8e80e3af878df6f412705372eb323bfc17344",
+      "size": 1778
+    },
+    {
+      "path": "README_CN.md",
+      "sha256": "fc33a2e9cc51ff9ad9474260a196ff0dcb5dccedcc1e437396eb290d5466372e",
+      "size": 3017
     },
     {
       "path": "requirements.txt",
@@ -1521,8 +1531,8 @@
     },
     {
       "path": "tests/test_public_full_release.py",
-      "sha256": "745213a1a879fddd0ac3894236e14386be238281ab33512a00cbfa41ca3a3a7a",
-      "size": 4013
+      "sha256": "1364e37267922bf8ae1eaee5bce3b3d926e8359aad478a628a8d3f9f7e161af6",
+      "size": 4118
     },
     {
       "path": "tests_support/__init__.py",
@@ -1631,8 +1641,8 @@
     },
     {
       "path": "tools/audit_full_public_surface.py",
-      "sha256": "f130f73c54b960a79a4959b4b0e6753a40e9fddbc089de67f3d0da71e92b0dae",
-      "size": 7102
+      "sha256": "61fa515fb9e536cddddaafda54ff0d2c1e9b54fc221983ddfe378106c098ba27",
+      "size": 7122
     },
     {
       "path": "tools/audit_full_release.py",
@@ -1706,8 +1716,8 @@
     },
     {
       "path": "tools/export_full_repo.py",
-      "sha256": "52e170e9a954aac6d1d610a9d81c5e87185f9d0ba55c17994b8e2ad59085decf",
-      "size": 17937
+      "sha256": "a7412e6bc3182a3de361719c1eb66570b1f4f3c98366829c44d67eb50f542b1a",
+      "size": 18104
     },
     {
       "path": "tools/full_quality_gate.py",
@@ -2897,7 +2907,7 @@
   ],
   "generated_from_tracked_files": true,
   "schema_version": 1,
-  "source_commit": "9978c170a5402ec968d84a0aa1b7896bcdf284b2",
+  "source_commit": "96fe4770cb171b17be222fc10e347a59b10654bc",
   "source_worktree_dirty": false,
   "untracked_release_inputs": []
 }

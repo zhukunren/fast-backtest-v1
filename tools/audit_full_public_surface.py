@@ -12,6 +12,7 @@ TEXT_SUFFIXES = {"", ".cfg", ".csv", ".ini", ".json", ".md", ".py", ".toml", ".t
 
 REQUIRED_FILES = (
     "README.md",
+    "README_CN.md",
     "LICENSE",
     "requirements.txt",
     "config/config.example.ini",

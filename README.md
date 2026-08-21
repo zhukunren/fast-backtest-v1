@@ -1,5 +1,7 @@
 # JSHS V1 Full Public Edition
 
+Chinese setup guide: `README_CN.md`.
+
 JSHS V1 is a daily A-share backtesting workspace with a Python engine, CLI,
 data adapters, strategy library, batch tools, Web strategy review service, and
 Vue frontend. This public edition is a curated source release; it does not

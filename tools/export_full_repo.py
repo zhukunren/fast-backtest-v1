@@ -139,6 +139,7 @@ EXTRA_FILES = {
     "tools/smoke_full_public_repo.py",
     "docs/full/public_release.md",
     "docs/full/public_readme.md",
+    "docs/full/public_readme_zh.md",
     ".github/workflows/full-public-ci.yml",
 }
 
@@ -206,6 +207,7 @@ def export_full_repo(*, target: Path, clean: bool = False) -> list[str]:
         failures,
     )
     _copy_release_text("docs/full/public_readme.md", target / "README.md", committed_set, failures)
+    _copy_release_text("docs/full/public_readme_zh.md", target / "README_CN.md", committed_set, failures)
     _copy_release_text(
         "config/config.example.ini",
         target / "config" / "config.ini",
@@ -228,6 +230,7 @@ def check_export(target: Path) -> list[str]:
     failures: list[str] = []
     required = (
         "README.md",
+        "README_CN.md",
         "LICENSE",
         "requirements.txt",
         "config/config.ini",

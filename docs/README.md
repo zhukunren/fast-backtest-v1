@@ -22,6 +22,7 @@ Last verified: 2026-08-21
 - `docs/agent/CODEX_PLUGIN.md` - JSHS companion plugin 的安装形态、完整 checkout 依赖和公开发布边界。
 - `OPEN_SOURCE_RELEASE.md` - 开源边界、完整公共源码导出、数据授权和发布前检查。
 - `docs/full/public_release.md` - V1 完整功能公共发行版的范围、安装、数据、Web 安全和发布验证。
+- `docs/full/public_readme_zh.md` - 公共仓库根目录 `README_CN.md` 的中文安装、运行和边界说明。
 - `docs/handbook.md` - V1 panel/single/fixed-rebalance 唯一运行合同、配置、交易语义、缓存、Web 和验证手册。
 - `docs/CHANGE_RECIPES.md` - 按变更面选择本地最小验证和 CI/full gate 的路由表；机器规则见 `config/change-impact.json`。
 - `tools/output_gc.py` - `output` 历史缓存/临时目录迁移与共享 `.cache`、`.tmp` 过期项清理；所有变更默认 dry-run，研究证据目录默认排除。
