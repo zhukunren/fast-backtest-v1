@@ -4,6 +4,8 @@
 
 > **An LLM-driven A-share strategy production factory:** describe a research objective, let the Agent author and backtest a deterministic strategy, audit the domain contracts, and return a qualified strategy with evidence.
 
+You can generate and backtest a strategy in natural language without learning Python or the strategy API first. Describe the market behavior, holding rules, risk limits, and metric targets; the Agent writes the source, runs the backtest, and explains the result.
+
 ## How To Use
 
 1. Install the project and download the [full Panel data package](https://github.com/zhukunren/fast-backtest-v1/releases/tag/panel-v1.0.0).
