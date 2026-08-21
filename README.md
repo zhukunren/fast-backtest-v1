@@ -13,7 +13,7 @@
 
 Example request:
 
-> Research a daily TopN momentum strategy on the 2021-2025 A-share daily Panel. Avoid look-ahead data, require cumulative return >= 20%, maximum drawdown <= 15%, actual trade-segment win rate >= 55%, and minimum portfolio size 2x2. Choose the appropriate execution setup and return auditable source and backtest evidence.
+> Research a daily TopN momentum strategy on the 2021-2025 A-share daily Panel. Avoid look-ahead data, require cumulative return >= 300%, maximum drawdown <= 30%, actual trade-segment win rate >= 55%, and minimum portfolio size 2x2. Choose the appropriate execution setup and return auditable source and backtest evidence.
 
 The Agent handles strategy templates, mode and engine selection, iteration, failure diagnosis, and artifact interpretation. Ask the Agent for implementation details when you need them.
 
