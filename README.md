@@ -4,6 +4,14 @@
 
 Chinese setup guide: `README_CN.md`.
 
+JSHS V1 is an LLM-driven A-share strategy production factory. A user supplies
+a research objective; the workflow fixes the measurement contract, iteratively
+authors one deterministic strategy, runs the real backtest, and emits
+auditable evidence. A strategy is qualified only when its data, point-in-time,
+schema, causality, signal, tradability, execution, cost, and NAV checks pass
+under the declared contract. This qualification is not a promise of future
+profitability or a live-trading recommendation.
+
 JSHS V1 is a daily A-share backtesting workspace with a Python engine, CLI,
 data adapters, strategy library, batch tools, Web strategy review service, and
 Vue frontend. This public edition is a curated source release; it does not
