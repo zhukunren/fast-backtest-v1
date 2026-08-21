@@ -1,64 +1,53 @@
-# JSHS V1 完整公共版
+# JSHS V1
 
 [English](README.md) | 中文
 
-## 项目定位
+> **LLM 驱动的 A 股交易策略生产工厂**：用户提出研究目标，Agent 负责把目标变成确定性策略、执行真实回测、完成领域检查，并输出可审计的合格策略和证据。
 
-JSHS V1 是一个 **LLM 驱动的 A 股交易策略生产工厂**。用户提出研究目标或交易策略需求，系统将需求转化为固定的回测测量合同，由 LLM 迭代编写同一个确定性策略模块，再调用真实回测引擎执行并生成结构化证据。
+## 怎么使用
 
-生产流程严格区分“生成”和“合格”：
+1. 安装项目并下载 [完整 Panel 数据包](https://github.com/zhukunren/fast-backtest-v1/releases/tag/panel-v1.0.0)。
+2. 在项目目录打开 Agent，直接用自然语言描述你的策略研究目标。
+3. Agent 固定回测合同，生成或修改策略，反复回测，直到结果为 `Passed` 或明确说明为什么无法通过。
+4. 查看策略源码、回测摘要和审计产物，决定是否进入你自己的研究流程。
 
-1. 固定日期窗口、数据身份、股票池、引擎、成本、组合参数和指标目标。
-2. LLM 根据用户目标生成或修改策略源码。
-3. 回测引擎执行策略，并读取 `summary.json` 等结构化结果。
-4. 检查数据质量、点时、schema、因果性、信号归属、可交易性、成交、费用、持仓和净值不变量。
-5. 只有在声明的回测合同下所有目标和检查都通过，才输出可审计的合格 A 股交易策略及其证据。
+例如：
 
-这里的“合格”表示通过已声明的历史回测合同，不代表未来盈利、实盘可用或投资建议。项目不会把回测结果包装成收益承诺。
+> 请用 2021-2025 年 A 股日线 Panel，研究一个每日 TopN 动量策略；目标是控制最大回撤、提高胜率，并确保没有未来数据。请使用 broker 引擎，输出可审计的策略源码和回测证据。
 
-## 示例：从需求到合格策略
+Agent 会处理策略模板、模式和引擎选择、回测迭代、失败定位以及产物解释。你不需要先阅读项目内部实现；遇到具体问题，直接继续询问 Agent。
 
-下面是一个流程示意，展示用户如何把自然语言目标交给策略生产工厂。示例结果是结构示意，不代表本项目已经对这组参数产生了真实绩效。
+## 三种模式
 
-用户需求可以这样描述：
+| 模式 | 用途 |
+| --- | --- |
+| `curve` | 从全市场 Panel 信号到 TopN、组合执行和净值曲线，回答策略历史表现如何。 |
+| `assess` | 从全市场 Panel 信号到交易段评估，快速分析信号质量、交易表现和风险。 |
+| `single` | 单只股票信号与净值测试，快速定位策略逻辑和执行问题。 |
 
-> 请在 2021-01-01 至 2025-12-31 的 A 股日线数据上，构建一个每日 TopN 策略。目标是控制最大回撤、提高交易胜率，并且所有信号必须只使用当日及之前可获得的信息。请给出可审计的策略源码和回测证据。
+## 五个引擎
 
-Codex 先把需求固化成合同：日期窗口、数据身份、股票池、组合引擎、交易费用、持仓参数、指标定义和通过阈值在整个迭代过程中保持不变。随后在完整开发工作区中运行同一个回测入口：
+| 引擎 | 用途 |
+| --- | --- |
+| `legacy` | 向量化组合回测，适合标准策略研究。 |
+| `slot` | 槽位现金管理，适合固定持仓槽位的策略。 |
+| `slot_broker` | 槽位分配与现金/成交账本结合。 |
+| `broker` | 订单、成交、现金、持仓和风险账本，适合严格交易语义研究。 |
+| `fixed_rebalance` | 按目标权重定期再平衡，不需要信号策略。 |
 
-```powershell
-python tools\codex_strategy.py backtest `
-  --module strategy_library.generated.user_target_strategy `
-  --start-time 20210101 `
-  --end-time 20251231 `
-  [固定的组合、费用和目标参数]
-```
+Agent 会根据研究问题选择模式和引擎，并在同一任务中保持条件一致。比较策略时，必须使用相同的模式、引擎、数据和回测窗口。
 
-每轮只修改同一个策略文件，并先读取该轮的 `summary.json`：
+## 你会得到什么
 
-| 状态 | 含义 | 下一步 |
-| --- | --- | --- |
-| `Invalid` | 编译、schema、因果性、信号归属、行情或运行不变量失败 | 修复同一策略文件，绩效不计入达标证据 |
-| `Unmet` | 回测有效，但至少一个用户目标未达到 | 保持合同不变，继续修改并复跑 |
-| `Passed` | 回测有效，所有目标和硬检查均通过 | 停止迭代，保留源码和最终证据 |
-
-一个合格结果至少应能关联到：
-
-- 策略源码及其固定模块路径；
+- 一个可运行、可复查的 A 股策略源码模块；
 - `summary.json`、目标检查和静态检查结果；
-- 数据身份、日期窗口、resolved config 和引擎信息；
-- 信号、成交、持仓、净值和交易段等结构化产物；
-- 数据质量、点时、schema、因果性、可交易性、费用和 NAV 不变量检查。
+- 数据身份、回测窗口、配置和引擎记录；
+- 信号、成交、持仓、净值和交易段等结构化结果；
+- 对数据质量、点时、schema、因果性、可交易性、费用和净值不变量的审计结果。
 
-如果某一轮出现未来数据、键或行序改变、OHLCV 被覆盖、信号归属错误等问题，即使收益数字很好，也必须判为无效，不能保存为合格策略。
+`Passed` 只表示策略通过声明的历史回测合同，不代表未来盈利、实盘可用或投资建议。项目不会把回测结果包装成收益承诺。
 
-JSHS V1 是一个面向 A 股日线数据的回测工作区，包含 Python 回测引擎、命令行入口、数据适配器、策略 API、批量工具、Web 策略复盘服务和 Vue 前端。
-
-这是经过裁剪的公共源码版本，不包含真实行情数据、供应商返回结果、账号凭据、私有策略、论文研究证据，也不包含独立的 V2/V3 引擎。
-
-## 快速开始
-
-建议使用 Python 3.11 或更高版本：
+## 安装与运行
 
 ```powershell
 python -m venv .venv
@@ -68,18 +57,13 @@ python -m pip install -r requirements.txt
 Copy-Item config\config.example.ini config\config.local.ini
 ```
 
-运行本地价格 smoke。价格数据使用仓库内置的合成 fixture，但交易日历仍通过官方 TuShare 获取：
+Panel 下载后解压到 `data/panel_cache/`，先按 Release 页面和 manifest 校验 SHA-256：
 
 ```powershell
-$env:TUSHARE_TOKEN = "你的 TuShare token"
-python tests\test_offline_smoke.py
+python tools\data_quality_audit.py --target panel-manifest --input data\panel_cache\stock_daily.parquet
 ```
 
-不要把真实 token 写入 `config/config.local.ini`、源码、日志或 Git。推荐只在当前终端设置环境变量。
-
-## 启动 Web 界面
-
-先构建前端：
+启动 Web 工作区：
 
 ```powershell
 Set-Location web\frontend
@@ -89,72 +73,8 @@ Set-Location ..\..
 python -m web
 ```
 
-浏览器访问 `http://127.0.0.1:5000`。Web 目录默认展示公共的 `public_offline_smoke` 示例策略。
+访问 `http://127.0.0.1:5000`。当前 `curve`/`assess` 执行仍需要配置交易日历服务；默认使用 TuShare。Panel 数据和源码已分离，真实数据授权由使用者负责。
 
-远程部署前必须阅读 `docs/full/web.md` 和 `SECURITY.md`。Web 服务会执行可信管理员上传的 Python 策略代码，不是安全沙箱；不可信代码必须放在独立进程或容器中，并由部署层限制文件系统、网络、凭据和资源权限。
+## 边界
 
-## 数据与策略
-
-真实回测需要用户自行取得合法授权的行情数据。日线行情至少需要以下字段：
-
-```text
-trade_date, stock_code, open, high, low, close, volume
-```
-
-数据接入方式、字段含义和点时约束见：
-
-- `docs/full/data_onboarding.md`
-- `docs/strategy_field_dictionary.md`
-- `strategies/API.md`
-
-策略只负责因果特征、信号意图和候选排序；交易日可成交性、涨跌停、执行价格、费用、持仓、风险状态和净值由 V1 框架负责。
-
-## 完整 Panel 数据包
-
-项目提供一个与源码分离的完整 A 股日线 panel 数据包：[panel-v1.0.0 Release](https://github.com/zhukunren/fast-backtest-v1/releases/tag/panel-v1.0.0)。数据包不是 Git 源码的一部分，下载后请先校验压缩包和 Parquet 文件的 SHA-256。
-
-当前数据包信息：
-
-- 覆盖日期：1990-12-19 至 2026-08-18
-- 股票数：5,544
-- 行数：16,813,463
-- 压缩包：`jshs-v1-panel-2026-08-18.zip`
-- 压缩包 SHA-256：`8954f6c90fc951f8526d22b99a1300b0b364524270d500c9e268f9e6f1302ecf`
-- Parquet SHA-256：`3115de26d059bab240b497affb2465890afe1cd2b7b65d18aa68056b7aaa0185`
-
-PowerShell 示例：
-
-```powershell
-$url = "https://github.com/zhukunren/fast-backtest-v1/releases/download/panel-v1.0.0/jshs-v1-panel-2026-08-18.zip"
-Invoke-WebRequest -Uri $url -OutFile jshs-v1-panel-2026-08-18.zip
-Get-FileHash .\jshs-v1-panel-2026-08-18.zip -Algorithm SHA256
-Expand-Archive .\jshs-v1-panel-2026-08-18.zip -DestinationPath .\panel-release
-Copy-Item .\panel-release\stock_daily.parquet data\panel_cache\stock_daily.parquet
-Copy-Item .\panel-release\stock_daily.manifest.json data\panel_cache\stock_daily.manifest.json
-python tools\data_quality_audit.py --target panel-manifest --input data\panel_cache\stock_daily.parquet
-```
-
-如果数据包版本、日期范围或 hash 与说明不一致，不要直接用于复现实验；应先检查 Release 版本和 manifest。
-
-## 验证
-
-在干净的公共候选目录中运行：
-
-```powershell
-python tools\audit_full_public_surface.py
-python tools\smoke_full_public_repo.py
-```
-
-公共候选由完整开发工作区的已跟踪文件生成：
-
-```powershell
-python tools\export_full_repo.py --clean
-```
-
-`FULL_PUBLIC_RELEASE_MANIFEST.json` 会记录来源提交、文件路径、大小和 SHA-256。不要直接发布开发工作区根目录，也不要携带其 Git 历史、`output/`、本地数据或 `config/config.local.ini`。
-
-## 范围与许可
-
-本项目是回测和研究工程工具，不是投资顾问、数据供应商或实盘交易系统。公共版只维护 V1 完整工作区；论文材料、私有研究记录以及 `projects/engine_v2/`、`projects/engine_v3/` 不属于本仓库的公共源码面。
-
-代码采用 MIT License，详见 `LICENSE`。使用者需要自行确认数据授权、点时正确性、交易成本和执行假设。
+公共仓库只包含 V1 完整源码，不包含论文证据、私有研究记录、凭据、运行缓存或 V2/V3 项目。Web 上传的 Python 代码属于可信管理员代码，不是安全沙箱。代码采用 MIT License，详见 `LICENSE` 和 `SECURITY.md`。

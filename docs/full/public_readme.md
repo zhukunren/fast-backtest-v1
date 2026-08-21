@@ -1,72 +1,80 @@
-# JSHS V1 Full Public Edition
+# JSHS V1
 
 [中文](README_CN.md) | English
 
-Chinese setup guide: `README_CN.md`.
+> **An LLM-driven A-share strategy production factory:** describe a research objective, let the Agent author and backtest a deterministic strategy, audit the domain contracts, and return a qualified strategy with evidence.
 
-JSHS V1 is an LLM-driven A-share strategy production factory. A user supplies
-a research objective; the workflow fixes the measurement contract, iteratively
-authors one deterministic strategy, runs the real backtest, and emits
-auditable evidence. A strategy is qualified only when its data, point-in-time,
-schema, causality, signal, tradability, execution, cost, and NAV checks pass
-under the declared contract. This qualification is not a promise of future
-profitability or a live-trading recommendation.
+## How To Use
 
-JSHS V1 is a daily A-share backtesting workspace with a Python engine, CLI,
-data adapters, strategy library, batch tools, Web strategy review service, and
-Vue frontend. This public edition is a curated source release; it does not
-contain real market data, vendor responses, credentials, private research
-strategies, V2/V3 projects, or paper evidence.
+1. Install the project and download the [full Panel data package](https://github.com/zhukunren/fast-backtest-v1/releases/tag/panel-v1.0.0).
+2. Open your Agent in the project directory and describe the research objective in natural language.
+3. The Agent fixes the measurement contract, authors or revises one strategy, reruns the backtest, and reports `Passed` or the reason it cannot pass.
+4. Review the strategy source, summary, and audit artifacts before using the result in your own research process.
 
-## Quick start
+Example request:
+
+> Research a daily TopN momentum strategy on the 2021-2025 A-share daily Panel. Control drawdown, improve win rate, avoid look-ahead data, use the broker engine, and return auditable source and backtest evidence.
+
+The Agent handles strategy templates, mode and engine selection, iteration, failure diagnosis, and artifact interpretation. Ask the Agent for implementation details when you need them.
+
+## Three Modes
+
+| Mode | Use |
+| --- | --- |
+| `curve` | Full-Panel signals, TopN selection, portfolio execution, and equity curve. |
+| `assess` | Full-Panel signals and trade-segment evaluation for fast signal research. |
+| `single` | Single-stock signal and equity testing for focused debugging. |
+
+## Five Engines
+
+| Engine | Use |
+| --- | --- |
+| `legacy` | Vectorized portfolio research for standard strategies. |
+| `slot` | Slot-based cash and position management. |
+| `slot_broker` | Slot allocation combined with cash and execution ledgers. |
+| `broker` | Order, fill, cash, position, and risk ledgers for strict trading semantics. |
+| `fixed_rebalance` | Periodic target-weight rebalancing without a signal strategy. |
+
+The Agent selects the mode and engine for the research question and keeps the measurement conditions fixed within a task. Compare strategies only under the same mode, engine, data, and window.
+
+## What You Get
+
+- Runnable and reviewable A-share strategy source;
+- `summary.json`, objective checks, and static checks;
+- data identity, window, resolved configuration, and engine records;
+- structured signals, fills, positions, equity, and trade-segment artifacts;
+- audit results for data quality, point-in-time safety, schema, causality, tradability, costs, and NAV invariants.
+
+`Passed` means the strategy passed its declared historical backtest contract. It is not a promise of future profitability, live-trading readiness, or investment advice.
+
+## Install And Run
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\activate
+python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 Copy-Item config\config.example.ini config\config.local.ini
-$env:TUSHARE_TOKEN = "..."
-python tests\test_offline_smoke.py
 ```
 
-For the Web UI:
+Extract the Panel into `data/panel_cache/` and verify its manifest hash:
 
 ```powershell
-cd web\frontend
+python tools\data_quality_audit.py --target panel-manifest --input data\panel_cache\stock_daily.parquet
+```
+
+Start the Web workspace:
+
+```powershell
+Set-Location web\frontend
 npm ci
 npm run build
-cd ..\..
+Set-Location ..\..
 python -m web
 ```
 
-Open `http://127.0.0.1:5000`. Full setup, data onboarding, and deployment
-security are documented in `docs/full/public_release.md`,
-`docs/full/data_onboarding.md`, and `docs/full/web.md`.
+Open `http://127.0.0.1:5000`. Current `curve`/`assess` execution still requires a configured trading-calendar provider; TuShare is the default. Users remain responsible for data licensing.
 
-## Data and credentials
+## Boundary
 
-Use your own licensed daily OHLCV data. Configure MySQL and the official
-TuShare service through environment variables such as `MYSQL_PASSWORD` and
-`TUSHARE_TOKEN`. No real data or working token is distributed with this
-release. The local-price smoke replaces only OHLCV input; its curve execution
-still requires TuShare calendar access.
-
-## Full Panel Data Package
-
-The complete A-share daily panel is distributed separately from the source in
-the [panel-v1.0.0 Release](https://github.com/zhukunren/fast-backtest-v1/releases/tag/panel-v1.0.0).
-Download the ZIP, verify its SHA-256 and the included manifest before placing
-the Parquet file at `data/panel_cache/stock_daily.parquet`.
-
-## Scope
-
-This edition is an alpha research and engineering tool, not an investment
-adviser or live-trading system. It supports daily backtests and Web review of
-the deterministic `public_offline_smoke` demo; the CLI also includes the
-`breakout_20` example. Minute bars, live trading, broker execution, real-market
-fixtures, private strategy research, and V2/V3 projects are outside the public
-release boundary.
-
-## License
-
-MIT. See `LICENSE` and `SECURITY.md`.
+The public repository contains the complete V1 source only. Paper evidence, private research records, credentials, runtime caches, and V2/V3 projects are excluded. Uploaded Python is trusted administrator code, not a sandbox. MIT License; see `LICENSE` and `SECURITY.md`.
